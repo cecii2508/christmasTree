@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>互動 SVG 聖誕樹願望牆</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ballet:opsz@16..72&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0f172a; overflow: hidden; font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; }
+        
+        /* 容器與 SVG 比例 */
+        .tree-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 520 / 400;
+        }
+
+        /* 願望星樣式 */
+        .wish-star {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            clip-path: circle(50% at 50% 50%);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
+            z-index: 10;
+        }
+        .wish-star:hover { transform: scale(1.5) rotate(15deg); filter: brightness(1.2); }
+
+        /* 雪花 */
+        .snow { position: absolute; color: white; pointer-events: none; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(100vh); } }
+        @keyframes light {from {opacity: 0.4} to {opacity: 0.0}}
+        p {
+            margin: 0;
+            vertical-align: top; 
+            font: 6.3em 'Erica One', cursive;
+            color:dodgerblue; 
+            }
+            #star, g circle:nth-child(odd) {
+            animation: light 0.3s infinite linear alternate;
+            animation-delay: 0.3s;
+            }
+            g circle:nth-child(even) {
+            animation: light 0.3s infinite linear alternate;
+            }
+        .ballet-h3 {
+            font-family: "Ballet", cursive;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            letter-spacing: .1cap;
+            }
+    </style>
+</head>
+<body>
+
+<div id="app" class="relative min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="flex items-start ">
+   <div v-for="s in snowflakes" :key="s.id" :style="s.style" class="snow text-xs opacity-50">●</div>
+    </div>
+   
+    <div class="text-center mb-4 z-20">
+        <h1 class="text-3xl font-bold text-white drop-shadow-lg"></h1>
+        <p class="text-blue-200 text-sm mt-2"></p>
+    </div>
+
+    <div class="text-center">
+       
+       <svg  width="350" height="450" class="pl-12 pt-8">
+            <rect x="115" y="285" width="30" height="50" rx="7" fill="#8B4513" />
+            <rect x="115" y="285" width="30" height="25" rx="7" fill="black" opacity="0.4" />
+            <polygon points="130,20 130,300 200,300 240,275 210,210 215,205 180,135 185,125" fill="#82c500" />
+            <polygon points="130,20 70,125 75,130 45,200 50,205 10,285 60,305 130,300" fill="#689e00" />
+            <polygon points="130,20 100,110 105,115 80,210 85,215 60,305 200,300 175,205 180,200 155,125 160,120" fill="#74b000" />
+            <polygon points="70,125 100,110 160,120 185,125 180,135 155,125 105,120 75,130" fill="#629500" />
+            <polygon points="45,200 80,210 180,200 215,205 210,210 175,205 85,215 50,205" fill="#629500" />
+            <path d="M 35,235 S 35,270 75,255
+                     M 75,255 S 145,290 180,225
+                     M 180,225 S 200,255 230,255" fill="none" stroke="black" stroke-width="1" />
+            <path d="M 60,165 S 70,190 95,155
+                     M 95,155 S 130,220 170,170
+                     M 170,170 S 185,205 200,175" fill="none" stroke="black" stroke-width="1" />
+            <path d="M 80,105 S 90,110 110,80
+                     M 110,80 S 120,110 150,90
+                     M 150,90 S 165,115 180,115" fill="none" stroke="black" stroke-width="1" />
+            <circle r="3" cx="90" cy="100" fill="gold" />
+            <circle r="3" cx="115" cy="92" fill="gold" />
+            <circle r="3" cx="145" cy="90" fill="gold" />
+            <circle r="3" cx="165" cy="105" fill="gold" />
+            <circle r="3" cx="70" cy="175" fill="gold" />
+            <circle r="3" cx="90" cy="160" fill="gold" />
+            <circle r="3" cx="110" cy="180" fill="gold" />
+            <circle r="3" cx="135" cy="192" fill="gold" />
+            <circle r="3" cx="155" cy="179" fill="gold" />
+            <circle r="3" cx="175" cy="175" fill="gold" />
+            <circle r="3" cx="195" cy="188" fill="gold" />
+            <circle r="3" cx="35" cy="250" fill="gold" />
+            <circle r="3" cx="65" cy="255" fill="gold" />
+            <circle r="3" cx="95" cy="257" fill="gold" />
+            <circle r="3" cx="125" cy="265" fill="gold" />
+            <circle r="3" cx="155" cy="257" fill="gold" />
+            <circle r="3" cx="175" cy="230" fill="gold" />
+            <circle r="3" cx="195" cy="245" fill="gold" />
+            <circle r="3" cx="220" cy="257" fill="gold" />
+            <g>
+                <circle r="10" cx="90" cy="100" fill="gold" opacity="0.4" />
+                <circle r="10" cx="115" cy="92" fill="gold" opacity="0.4" />
+                <circle r="10" cx="145" cy="90" fill="gold" opacity="0.4" />
+                <circle r="10" cx="165" cy="105" fill="gold" opacity="0.4" />
+                <circle r="10" cx="70" cy="175" fill="gold" opacity="0.4" />
+                <circle r="10" cx="90" cy="160" fill="gold" opacity="0.4" />
+                <circle r="10" cx="110" cy="180" fill="gold" opacity="0.4" />
+                <circle r="10" cx="135" cy="192" fill="gold" opacity="0.4" />
+                <circle r="10" cx="155" cy="179" fill="gold" opacity="0.4" />
+                <circle r="10" cx="175" cy="175" fill="gold" opacity="0.4" />
+                <circle r="10" cx="195" cy="188" fill="gold" opacity="0.4" />
+                <circle r="10" cx="35" cy="250" fill="gold" opacity="0.4" />
+                <circle r="10" cx="65" cy="255" fill="gold" opacity="0.4" />   
+                <circle r="10" cx="95" cy="257" fill="gold" opacity="0.4" />
+                <circle r="10" cx="125" cy="265" fill="gold" opacity="0.4" />   
+                <circle r="10" cx="155" cy="257" fill="gold" opacity="0.4" />
+                <circle r="10" cx="175" cy="230" fill="gold" opacity="0.4" />
+                <circle r="10" cx="195" cy="245" fill="gold" opacity="0.4" />
+                <circle r="10" cx="220" cy="257" fill="gold" opacity="0.4" />
+            </g>
+            <circle id="star" r="15" cx="130" cy="15" fill="yellow" opacity="0.4" />
+            <polygon points="121,5 130,30 139,5 118,20 142,20" 
+             fill="gold" stroke="orange" stroke-width="1" />
+            <polygon points="130,4 121,28 142,13 118,13 139,28" 
+             fill="gold" stroke="orange" stroke-width="1" />
+        </svg>
+        
+       
+
+        <div 
+            v-for="wish in wishes" 
+            :key="wish.id"
+            class="wish-star animate__animated animate__zoomIn"
+            :style="{ 
+                left: (wish.x / 520 * 100) + '%', 
+                top: (wish.y / 500 * 100) + '%', 
+                backgroundColor: wish.color 
+            }"
+            @click="openWishDetail(wish)"
+        ></div>
+    </div>
+     <div class="text-center mb-4 z-20">
+        <h3 class="ballet-h3 text-3xl font-bold text-white drop-shadow-lg">Merry   Christmas</h3>
+        <p class="text-blue-200 text-sm mt-2"></p>
+    </div>
+
+    <button @click="showModal = true" class="fixed bottom-8 right-8 w-14 h-14 bg-red-500 text-white rounded-full shadow-lg flex items-center justify-center text-3xl hover:bg-red-600 hover:scale-110 transition-all z-40">
+        <span class="mb-1">+</span>
+    </button>
+
+    <div v-if="showModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl animate__animated animate__backInUp">
+            <h2 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                <span class="mr-2">✨</span> 寫下你的願望
+            </h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase">你的暱稱</label>
+                    <input v-model="form.name" type="text" placeholder="怎麼稱呼你？" class="w-full border-b-2 border-slate-200 focus:border-red-500 p-2 outline-none transition-colors">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase">願望內容</label>
+                    <textarea v-model="form.text" placeholder="今年聖誕節想要..." class="w-full border-2 border-slate-100 rounded-xl p-3 h-24 focus:border-red-500 outline-none transition-colors"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-2">星星顏色</label>
+                    <div class="flex justify-between">
+                        <button v-for="c in colors" :key="c" @click="form.color = c" :style="{ backgroundColor: c }" 
+                            class="w-8 h-8 rounded-full border-4 transition-transform hover:scale-110" 
+                            :class="form.color === c ? 'border-slate-800' : 'border-transparent'">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-3 mt-8">
+                <button @click="showModal = false" class="flex-1 py-3 text-slate-400 font-medium">關閉</button>
+                <button @click="submitWish" class="flex-1 py-3 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-shadow shadow-md">掛上星星</button>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="selectedWish" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50" @click.self="selectedWish = null">
+        <div class="bg-white rounded-3xl p-8 w-full max-w-xs text-center relative animate__animated animate__zoomIn">
+            <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 rounded-full bg-white p-2 shadow-xl">
+                <div class="w-full h-full rounded-full flex items-center justify-center text-3xl" :style="{ backgroundColor: selectedWish.color }">
+                    ⭐
+                </div>
+            </div>
+            <div class="mt-8">
+                <h3 class="text-xl font-bold text-slate-800">{{ selectedWish.name }} 的願望</h3>
+                <div class="w-12 h-1 bg-slate-100 mx-auto my-4"></div>
+                <p class="text-slate-600 leading-relaxed italic">"{{ selectedWish.text }}"</p>
+            </div>
+            <button @click="selectedWish = null" class="mt-8 w-full py-2 bg-slate-100 rounded-xl text-slate-500 hover:bg-slate-200 transition-colors">關閉</button>
+        </div>
+    </div>
+
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // --- 請填入你的 Firebase 配置 ---
+    const firebaseConfig = {
+    apiKey: "AIzaSyCK-BCbrJ9HxUKv_i2XJxqUGQEfvM6QQFk",
+    authDomain: "christmastree-c7275.firebaseapp.com",
+    projectId: "christmastree-c7275",
+    storageBucket: "christmastree-c7275.firebasestorage.app",
+    messagingSenderId: "524987197590",
+    appId: "1:524987197590:web:00aac0057608424b01bab7",
+    measurementId: "G-CE7SGZXGT7"
+    };
+
+    const fbApp = initializeApp(firebaseConfig);
+    const db = getFirestore(fbApp);
+    const wishesCol = collection(db, "wishes");
+
+    const { createApp, ref, onMounted } = Vue;
+
+    createApp({
+        setup() {
+            const showModal = ref(false);
+            const selectedWish = ref(null);
+            const isSubmitting = ref(false);
+            const wishes = ref([]);
+            const colors = ['#FFD700', '#FF4D4D', '#3399FF', '#4CAF50', '#FF69B4'];
+            const form = ref({ name: '', text: '', color: '#FFD700' });
+            const snowflakes = ref([]);
+
+            // 即時同步雲端資料
+            const listenToWishes = () => {
+                const q = query(wishesCol, orderBy("createdAt", "desc"));
+                onSnapshot(q, (snapshot) => {
+                    wishes.value = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                });
+            };
+
+            // 送出願望到 Firebase
+            const submitWish = () => {
+                if (!form.value.name || !form.value.text) return alert('請完整填寫暱稱與願望！');
+
+                // 隨機計算在樹上的座標 (依據 520x400 的比例)
+                // 為了確保在樹葉範圍內，這裡做一點簡易的範圍限制
+                const x = Math.floor(Math.random() * 200) + 160; // 聚焦在中心 160~360
+                const y = Math.floor(Math.random() * 180) + 100; // 聚焦在樹冠 100~280
+
+                const newWish = {
+                    id: Date.now(),
+                    ...form.value,
+                    x, y
+                };
+
+                wishes.value.push(newWish);
+                localStorage.setItem('christmas_wishes_v2', JSON.stringify(wishes.value));
+
+                // 重置
+                form.value = { name: '', text: '', color: '#FFD700' };
+                showModal.value = false;
+            };
+
+            const openWishDetail = (wish) => {
+                selectedWish.value = wish;
+            };
+
+            const initSnow = () => {
+                for (let i = 0; i < 50; i++) {
+                    snowflakes.value.push({
+                        id: i,
+                        style: {
+                            left: Math.random() * 100 + 'vw',
+                            animationDuration: (Math.random() * 3 + 3) + 's',
+                            animationDelay: Math.random() * 5 + 's',
+                            fontSize: (Math.random() * 10 + 10) + 'px'
+                        }
+                    });
+                }
+            };
+
+            onMounted(() => {
+                listenToWishes();
+                initSnow();
+            });
+
+            return {
+                showModal, selectedWish, wishes, colors, form, snowflakes, isSubmitting,
+                submitWish, openWishDetail
+            }
+        }
+    }).mount('#app');
+</script>
+
+</body>
+</html>
