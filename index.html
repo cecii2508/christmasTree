@@ -41,7 +41,7 @@
         p {
             margin: 0;
             vertical-align: top; 
-            font: 6.3em 'Erica One', cursive;
+            font: 200 'Erica One', cursive;
             color:dodgerblue; 
             }
             #star, g circle:nth-child(odd) {
@@ -200,9 +200,9 @@
                 </div>
             </div>
             <div class="mt-8">
-                <h3 class="text-xl font-bold text-slate-800">{{ selectedWish.name }} 的願望</h3>
+                <h3 class="text-xl font-bold text-slate-400">{{ selectedWish.name }} 的願望</h3>
                 <div class="w-12 h-1 bg-slate-100 mx-auto my-4"></div>
-                <p class="text-slate-600 leading-relaxed italic">"{{ selectedWish.text }}"</p>
+                <p class="text-md text-slate-600 leading-relaxed italic">"{{ selectedWish.text }}"</p>
             </div>
             <button @click="selectedWish = null" class="mt-8 w-full py-2 bg-slate-100 rounded-xl text-slate-500 hover:bg-slate-200 transition-colors">關閉</button>
         </div>
