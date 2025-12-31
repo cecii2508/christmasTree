@@ -252,28 +252,38 @@
                 });
             };
 
+            
             // 送出願望到 Firebase
-            const submitWish = () => {
-                if (!form.value.name || !form.value.text) return alert('請完整填寫暱稱與願望！');
+const submitWish = async () => { // 加上 async
+    if (!form.value.name || !form.value.text) return alert('請完整填寫暱稱與願望！');
 
-                // 隨機計算在樹上的座標 (依據 520x400 的比例)
-                // 為了確保在樹葉範圍內，這裡做一點簡易的範圍限制
-                const x = Math.floor(Math.random() * 200) + 160; // 聚焦在中心 160~360
-                const y = Math.floor(Math.random() * 180) + 100; // 聚焦在樹冠 100~280
+    isSubmitting.value = true;
+    try {
+        // 隨機計算在你的 350x450 SVG 樹範圍內的座標
+        // 這裡微調了範圍，讓星星更集中在綠色樹體上
+        const x = Math.floor(Math.random() * 150) + 70; // 70~220 之間
+        const y = Math.floor(Math.random() * 200) + 60; // 60~260 之間
 
-                const newWish = {
-                    id: Date.now(),
-                    ...form.value,
-                    x, y
-                };
+        // 這是真正的雲端儲存邏輯
+        await addDoc(wishesCol, {
+            name: form.value.name,
+            text: form.value.text,
+            color: form.value.color,
+            x: x,
+            y: y,
+            createdAt: serverTimestamp() // 加入時間戳以便排序
+        });
 
-                wishes.value.push(newWish);
-                localStorage.setItem('christmas_wishes_v2', JSON.stringify(wishes.value));
-
-                // 重置
-                form.value = { name: '', text: '', color: '#FFD700' };
-                showModal.value = false;
-            };
+        // 成功後重置表單與狀態
+        form.value = { name: '', text: '', color: '#FFD700' };
+        showModal.value = false;
+    } catch (error) {
+        console.error("Firebase 儲存失敗:", error);
+        alert("雲端儲存失敗，請檢查 Firebase 的 Rules (規則) 是否已開啟讀寫權限！");
+    } finally {
+        isSubmitting.value = false;
+    }
+};
 
             const openWishDetail = (wish) => {
                 selectedWish.value = wish;
